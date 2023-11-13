@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dictionary Lookup</title>
+</head>
+<body>
+    <h1>Dictionary Lookup</h1>
+    <form action="/lookup" method="get">
+        <label for="word">Enter a word:</label>
+        <input type="text" id="word" name="word" required>
+        <button type="submit">Search</button>
+    </form>
+    <div>
+        <h2>Definition:</h2>
+        <p>{{.Word}}: {{.Definition}}</p>
+    </div>
+</body>
+</html>
