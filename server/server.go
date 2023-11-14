@@ -10,7 +10,19 @@ import (
 
 type Dictionary map[string]string
 
+type response struct {
+	Word       string
+	Definition string
+}
+
 func main() {
+	if len(os.Args) != 2 {
+		fmt.Println("Usage: ./server <port>")
+		return
+	}
+
+	port := os.Args[1]
+
 	dictionary, err := loadDictionary("dictionary.json")
 	if err != nil {
 		fmt.Println("Error loading dictionary:", err)
@@ -31,20 +43,16 @@ func main() {
 			definition = "Word not found"
 		}
 
-		response := struct {
-			Word       string
-			Definition string
-		}{
+		res := response{
 			Word:       word,
 			Definition: definition,
 		}
 
-		templates.ExecuteTemplate(w, "lookup.html", response)
+		templates.ExecuteTemplate(w, "lookup.html", res)
 	})
 
-	port := ":8080"
 	fmt.Println("Dictionary server is listening on port", port)
-	http.ListenAndServe(port, nil)
+	http.ListenAndServe(":"+port, nil)
 }
 
 func loadDictionary(filename string) (Dictionary, error) {
